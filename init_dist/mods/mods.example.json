@@ -1,0 +1,18 @@
+{
+  "mods": [
+    "examples/change-constant.js",
+    "examples/cli-method.js",
+    "examples/cronjob.js",
+    "examples/driver-method.js",
+    "examples/http-endpoint.js",
+    "examples/notifications-mailer/notifications-mailer.js",
+    "examples/player-sandbox.js",
+    "examples/process-object.js",
+    "examples/room-history.js",
+    "examples/tick-duration.js",
+    "examples/custom-objects/simple.js",
+    "examples/custom-objects/advanced.js",
+    "examples/custom-objects/intent.js",
+    "examples/custom-objects/intent-custom.js"
+  ]
+}

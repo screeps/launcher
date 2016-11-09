@@ -1,0 +1,34 @@
+{
+  "name": "@screeps/launcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "bin": {
+    "screeps-launcher": "bin/screeps.js"
+  },
+  "license": "ISC",
+  "author": "Artem Chivchalov <contact@screeps.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/screeps/launcher.git"
+  },
+  "scripts": {
+    "ui": "electron electron/main.js",
+    "electron-rebuild": "electron-rebuild"
+  },
+  "dependencies": {
+    "commander": "^2.9.0",
+    "dnode": "^1.2.2",
+    "ini": "^1.3.4",
+    "jquery": "^3.1.1",
+    "jquery.terminal": "^0.11.10",
+    "lodash": "^3.10.1",
+    "ncp": "^2.0.0",
+    "prompt": "^1.0.0",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "electron": "^1.4.2",
+    "electron-rebuild": "^1.2.1"
+  }
+}
