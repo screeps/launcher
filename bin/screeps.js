@@ -21,7 +21,7 @@ commander
     .description('Start all processes. Launch options can be configured from command line or using the .screepsrc file in the same folder.')
     .option('--db <path>', 'The path to the database file.')
     .option('--logdir <path>', 'The path to directory where logs will be created.')
-    .option('--moddir <path>', 'The path to directory where custom mods will be loaded from.')
+    .option('--modfile <path>', 'The path to JSON file with the list of custom mods to load.')
     .option('--assetdir <path>', 'The path to directory where static assets are located.')
     .option('--port <port>', 'The port number on which the game server should listen. Defaults to 21025.')
     .option('--host <host>', 'The hostname on which the game server should listen. Defaults to 0.0.0.0.')

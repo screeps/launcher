@@ -1,5 +1,5 @@
 cwd
 node_modules
 .idea
-!init_dist/mods/node_modules
-!init_dist/mods/examples/notifications-mailer/node_modules
+!init_dist/node_modules
+!init_dist/example-mods/notifications-mailer/node_modules

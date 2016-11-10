@@ -29,8 +29,8 @@ processors_cnt = 2
 ;The path to directory where logs will be created.
 logdir = logs
 
-;The path to directory where custom mods will be loaded from.
-moddir = mods
+;The path to JSON file with the list of custom mods to load.
+modfile = mods.json
 
 ;The path to directory where static assets are located.
 assetdir = assets
