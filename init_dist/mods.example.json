@@ -1,5 +1,7 @@
 {
   "mods": [
+    "example-mods/welcome-text.js",
+    "example-mods/tick-duration.js",
     "example-mods/change-constant.js",
     "example-mods/cli-method.js",
     "example-mods/cronjob.js",
@@ -9,7 +11,6 @@
     "example-mods/player-sandbox.js",
     "example-mods/process-object.js",
     "example-mods/room-history.js",
-    "example-mods/tick-duration.js",
     "example-mods/custom-objects/simple.js",
     "example-mods/custom-objects/advanced.js",
     "example-mods/custom-objects/intent.js",
