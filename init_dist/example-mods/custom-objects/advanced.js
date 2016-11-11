@@ -31,8 +31,12 @@ module.exports = function(config) {
         });
 
         // Increment the counter each tick
+        var oldCallback = config.engine.onProcessObject;
+
         config.engine.onProcessObject = function(object, roomObjects, roomTerrain, gameTime,
             roomInfo, objectsUpdate, usersUpdate) {
+
+            oldCallback.apply(this, arguments);
             
             if(object.type == 'myobject') {                
                 objectsUpdate.update(object, {

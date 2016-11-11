@@ -37,8 +37,12 @@ module.exports = function(config) {
         };
 
         // Add "incCounter" command processing
+        var oldCallback = config.engine.onProcessObjectIntents;
+
         config.engine.onProcessObjectIntents = function(object, userId, intents, roomObjects,
             roomTerrain, gameTime, roomInfo, objectsUpdate, usersUpdate) {
+
+            oldCallback.apply(this, arguments);
 
             if (object.type == 'myobject') {
                 if (intents.incCounter) {
