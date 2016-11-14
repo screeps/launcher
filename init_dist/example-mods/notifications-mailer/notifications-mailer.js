@@ -5,7 +5,7 @@ module.exports = function(config) {
         var nodemailer = require('nodemailer');
         var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
-        config.backend.onSendUserNotifications = function(user, notifications) {
+        config.backend.on('sendUserNotifications', function(user, notifications) {
 
             if(!user.email) {
                 return;
@@ -28,7 +28,7 @@ module.exports = function(config) {
                     return console.error(error);
                 }
             });
-        }
+        });
 
     }
 

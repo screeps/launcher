@@ -2,16 +2,11 @@
 
 module.exports = function(config) {
     if(config.engine) {
-
-        var oldCallback = config.engine.onProcessObject;
-
-        config.engine.onProcessObject = function(object) {
-
-            oldCallback.apply(this, arguments);
-
+        config.engine.on('processObject', function(object, roomObjects, roomTerrain, gameTime,
+                                                   roomInfo, objectsUpdate, usersUpdate) {
             if(object.type == 'keeperLair') {
-                return false; // This object will not be processed
+                object._skip = true; // This object will not be processed
             }
-        }
+        });
     }
 };

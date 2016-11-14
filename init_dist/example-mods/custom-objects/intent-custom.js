@@ -16,6 +16,13 @@ module.exports = function(config) {
     }
 
     if(config.engine) {
+
+        // Add a new custom intent type description.
+        // It is global for all object types
+        config.engine.customIntentTypes.incCounter = {
+            incValue: 'number'
+        };
+
         // Add MyObject prototype to user scripts
         config.engine.registerCustomObjectPrototype('myobject', 'MyObject', {
             properties: {
@@ -29,20 +36,11 @@ module.exports = function(config) {
             },
             findConstant: 10000
         });
-        
-        // Add a new custom intent type description.
-        // It is global for all object types
-        config.engine.customIntentTypes.incCounter = {
-            incValue: 'number'
-        };
 
         // Add "incCounter" command processing
-        var oldCallback = config.engine.onProcessObjectIntents;
-
-        config.engine.onProcessObjectIntents = function(object, userId, intents, roomObjects,
-            roomTerrain, gameTime, roomInfo, objectsUpdate, usersUpdate) {
-
-            oldCallback.apply(this, arguments);
+        config.engine.on('processObjectIntents', function(object, userId, intents, roomObjects,
+                                                          roomTerrain, gameTime, roomInfo, objectsUpdate,
+                                                          usersUpdate) {
 
             if (object.type == 'myobject') {
                 if (intents.incCounter) {
@@ -51,7 +49,7 @@ module.exports = function(config) {
                     });
                 }
             }
-        }
+        });
     }
 }
 

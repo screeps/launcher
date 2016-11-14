@@ -9,8 +9,8 @@ module.exports = function(config) {
 
     if(config.engine) {
 
-        // This callback is called when the history data should be saved to disk
-        config.engine.onSaveRoomHistory = function(roomName, baseTime, data) {
+        // This event is fired when the history data should be saved to disk
+        config.engine.on('saveRoomHistory', function(roomName, baseTime, data) {
             try {
                 fs.statSync(dir);
             }
@@ -28,7 +28,7 @@ module.exports = function(config) {
             fs.writeFile(
                 path.resolve(dir, roomName, baseTime+'.json'),
                 JSON.stringify(data));
-        }
+        });
     }
 
     if(config.backend) {
