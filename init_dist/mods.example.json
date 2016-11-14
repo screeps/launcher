@@ -15,5 +15,8 @@
     "example-mods/custom-objects/advanced.js",
     "example-mods/custom-objects/intent.js",
     "example-mods/custom-objects/intent-custom.js"
-  ]
+  ],
+  "bots": {
+    "simplebot": "node_modules/@screeps/simplebot/src"
+  }
 }
