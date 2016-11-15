@@ -1,0 +1,35 @@
+<section class="section-add">
+    <a ng-click="$ctrl.goToWorkshopSection()">&laquo; Back to My Workshop</a>
+    <h3>
+        <span>Add New Mod</span>
+    </h3>
+
+    <div class="add-description">
+        <p>1. Write your mod or bot AI. See <a ng-click="$ctrl.openExternal('https://github.com/screeps/screeps#mods')">documentation</a>.</p>
+        <p>2. Publish your package to the <a ng-click="$ctrl.openExternal('https://npmjs.com')">npm</a> repository.
+            <a ng-click="$ctrl.openExternal('https://docs.npmjs.com/getting-started/publishing-npm-packages')">Learn more</a></p>
+        <p>3. Register it on the Steam Workshop using the form below:</p>
+    </div>
+
+    <form ng-submit="$ctrl.submit()">
+        <div>
+            <label>npm package name:</label>
+            <input type="text" ng-model="$ctrl.packageName" ng-if="!$ctrl.editItem">
+            <span ng-if="$ctrl.editItem">{{$ctrl.editItem.title}}</span>
+        </div>
+        <div>
+            <label>path to image:</label>
+            <input type="text" ng-model="$ctrl.imagePath">
+            <button class=dialog type="button" ng-click="$ctrl.openImageFileDialog()">...</button>
+        </div>
+        <div>
+            <label>description:</label>
+            <textarea ng-model="$ctrl.description" rows="5"></textarea>
+        </div>
+
+        <button type="submit">Submit</button>
+        <span ng-if="$ctrl.submitting">&nbsp;&nbsp;Submitting...</span>
+    </form>
+
+
+</section>

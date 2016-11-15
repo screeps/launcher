@@ -7,8 +7,12 @@ const ipcMain = electron.ipcMain;
 const lib = require('./../lib/index');
 const stream = require('stream');
 const path = require('path');
+global.greenworks = require('./greenworks/greenworks');
+if(!global.greenworks.initAPI()) {
+    throw new Error('Error on initializing Steam API');
+}
 
-let mainWindow;
+let mainWindow, modsWindow;
 
 process.chdir(process.env.CWD || path.dirname(process.execPath).replace(/\/screeps_server\.app.*$/,''));
 
@@ -27,6 +31,11 @@ function createWindow () {
     //mainWindow.webContents.openDevTools();
     mainWindow.on('closed', function () {
         mainWindow = null;
+        if(modsWindow) {
+            modsWindow.close();
+            modsWindow = null;
+        }
+
     });
 }
 
@@ -45,6 +54,28 @@ ipcMain.once('ready', () => {
             console.error(err);
             process.exit();
         });
+});
+
+ipcMain.on('openMods', () => {
+    if(modsWindow) {
+        modsWindow.focus();
+    }
+    else {
+        modsWindow = new BrowserWindow({
+            width: 500,
+            height: 520,
+            minWidth: 500,
+            minHeight: 300,
+            title: 'Mods',
+            icon: `${__dirname}/ui/icon.png`
+        });
+        modsWindow.setMenu(null);
+        modsWindow.loadURL(`file://${__dirname}/ui/mods/mods.html`);
+        //modsWindow.webContents.openDevTools();
+        modsWindow.on('closed', function () {
+            modsWindow = null;
+        });
+    }
 });
 
 app.on('ready', createWindow);

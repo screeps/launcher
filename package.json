@@ -25,7 +25,8 @@
     "lodash": "^3.10.1",
     "ncp": "^2.0.0",
     "prompt": "^1.0.0",
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "angular": "^1.5.8"
   },
   "devDependencies": {
     "electron": "^1.4.2",

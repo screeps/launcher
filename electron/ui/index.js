@@ -1,9 +1,12 @@
-var {ipcRenderer} = require('electron');
+var {ipcRenderer,shell,remote} = require('electron');
 var stream = require('stream');
 var readline = require('readline');
 var lib = require('./../../lib/index');
 var fs = require('fs');
+var q = require('q');
 var path = require('path');
+var greenworks = remote.getGlobal('greenworks');
+
 var terminal, cliPort;
 
 var cliInStream = new stream.Readable({
@@ -86,26 +89,6 @@ function readGrowingFile(filename) {
     return out;
 }
 
-jQuery(function($, undefined) {
-
-    $('#panel-launcher').show();
-
-    $('#sidepanel a').click(navClick);
-
-
-    terminal = $('#term').terminal(function (command, term) {
-        cliInStream.push(command + "\n");
-    }, {
-        greetings: '',
-        name: 'js_demo',
-        prompt: '> ',
-        enabled: false
-    });
-    terminal.pause();
-
-    ipcRenderer.send('ready');
-});
-
 ipcRenderer.on('started', (event, data) => {
     cliPort = data.cliPort;
     connectCli();
@@ -146,7 +129,7 @@ ipcRenderer.on('started', (event, data) => {
     })
 });
 
-ipcRenderer.on('launcherOutput', (event, data) => {
+function writeToLauncherLog(data) {
     logData.launcher += data;
     var textarea = $('#panel-launcher .log')[0];
     if(textarea) {
@@ -155,4 +138,67 @@ ipcRenderer.on('launcherOutput', (event, data) => {
             textarea.scrollTop = textarea.scrollHeight;
         }
     }
+}
+
+ipcRenderer.on('launcherOutput', (event, data) => {
+    writeToLauncherLog(data);
+});
+
+function openMods() {
+    ipcRenderer.send('openMods');
+}
+
+jQuery(function($, undefined) {
+
+    $('#panel-launcher').show();
+
+    $('#sidepanel a').click(navClick);
+
+
+    terminal = $('#term').terminal(function (command, term) {
+        cliInStream.push(command + "\n");
+    }, {
+        greetings: '',
+        name: 'js_demo',
+        prompt: '> ',
+        enabled: false
+    });
+    terminal.pause();
+
+    writeToLauncherLog('Updating Workshop mods...\n');
+
+    var modsJson = require(path.resolve(process.cwd(), 'mods.json'));
+    var mods = [];
+    modsJson.mods.forEach(i => {
+        if(!/^node_modules/.test(i)) {
+            mods.push(i);
+        }
+    });
+    modsJson.mods = mods;
+    if(modsJson.bots) {
+        for (var i in modsJson.bots) {
+            if(i == 'simplebot') {
+                continue;
+            }
+            if(/^node_modules/.test(modsJson.bots[i])) {
+                delete modsJson.bots[i];
+            }
+        }
+    }
+    fs.writeFileSync('mods.json', JSON.stringify(modsJson, undefined, 2));
+
+    var defer = q.defer();
+
+    defer.promise
+        .then(items => {
+            return q.nfcall(installNpmModules, items.map(i => i.title))
+        })
+        .then(result => {
+            writeToLauncherLog(result.map(i => ' - ' + i + '\n'));
+        })
+        .catch(err => writeToLauncherLog(err+'\n'))
+        .then(() => ipcRenderer.send('ready'));
+
+    greenworks.ugcGetUserItems(greenworks.UGCMatchingType.Items, greenworks.UserUGCListSortOrder.TitleAsc, greenworks.UserUGCList.Subscribed,
+        defer.resolve, defer.reject);
 });

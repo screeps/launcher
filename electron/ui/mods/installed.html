@@ -1,0 +1,26 @@
+<section class="section-installed">
+    <div ng-if="$ctrl.loading" class="loading">Loading...</div>
+    <div ng-if="!$ctrl.loading && !$ctrl.error">
+        <h3>
+            <span>Installed Mods</span>
+            <a ng-click="$ctrl.openServerFolder()">VIEW MODS.JSON</a>
+        </h3>
+
+        <div class="empty" ng-if="!$ctrl.list.length">
+            You have no mods installed on this server.
+        </div>
+
+        <div class=installed-list ng-if="$ctrl.list.length">
+            <div class=installed-item ng-repeat="item in $ctrl.list">
+                <a ng-click="$ctrl.openModPage(item)">{{item.title}}</a>
+                <div class="description">{{item.description}}</div>
+                <button class="remove" ng-click="$ctrl.removeMod(item)" ng-disabled="$ctrl.toRemove[item.publishedFileId]">Remove</button>
+            </div>
+        </div>
+
+        <a ng-click="$ctrl.openWorkshop()">Browse Steam Workshop</a> or
+        <a ng-click="$ctrl.goToWorkshopSection()">add your own</a>.
+
+        <div class="dirty" ng-if="$ctrl.dirty">Please restart your server to reload the installed mods list.</div>
+    </div>
+</section>

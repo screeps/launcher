@@ -4,21 +4,24 @@
     <script type="text/javascript">
         var path = require('path');
         var jqueryTerminalDir = path.dirname(require.resolve('jquery.terminal'));
-        document.write('<'+'script src="'+jqueryTerminalDir+'/jquery.terminal.min.js"></'+'script>');
-        document.write('<'+'script src="'+jqueryTerminalDir+'/jquery.mousewheel-min.js"></'+'script>');
-        document.write('<link href="'+jqueryTerminalDir+'/../css/jquery.terminal.min.css" rel="stylesheet"/>');
+        document.write('<' + 'script src="' + jqueryTerminalDir + '/jquery.terminal.min.js"></' + 'script>');
+        document.write('<' + 'script src="' + jqueryTerminalDir + '/jquery.mousewheel-min.js"></' + 'script>');
+        document.write('<link href="' + jqueryTerminalDir + '/../css/jquery.terminal.min.css" rel="stylesheet"/>');
     </script>
-    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="npm.js"></script>
 
-    <link href="style.css" rel="stylesheet"/>
-    <link rel="icon" type="image/png" href="icon.png" />
+    <link href="index.css" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="icon.png"/>
     <title>Screeps server</title></head>
-<body ><nav id="sidepanel">
+<body>
+<nav id="sidepanel">
     <a id=nav-launcher class="active">launcher</a>
     <a id="nav-cli">CLI</a>
     <div class="subheader">processes</div>
-    <div id="subnav-processes">
-
+    <div id="subnav-processes"></div>
+    <div id="nav-controls">
+        <button onclick="openMods()">Mods</button>
     </div>
 </nav>
 

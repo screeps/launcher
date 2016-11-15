@@ -1,0 +1,25 @@
+<section class="section-installed">
+    <div ng-if="$ctrl.loading" class="loading">Loading...</div>
+    <div ng-if="!$ctrl.loading">
+        <a ng-click="$ctrl.goToInstalledSection()">&laquo; Back to Installed Mods</a>
+        <h3>
+            <span>My Workshop</span>
+        </h3>
+
+        <div class="empty" ng-if="!$ctrl.list.length">
+            Your Workshop is empty.
+        </div>
+
+        <div class=installed-list ng-if="$ctrl.list.length">
+            <div class=installed-item ng-repeat="item in $ctrl.list">
+                <a ng-click="$ctrl.openModPage(item)">{{item.title}}</a>
+                <div class="description">{{item.description}}</div>
+                <button class="remove" ng-click="$ctrl.editMod(item)">Edit</button>
+            </div>
+        </div>
+
+        <div>
+            <a ng-click="$ctrl.goToAddSection()">Add new mod</a>
+        </div>
+    </div>
+</section>

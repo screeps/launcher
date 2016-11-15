@@ -1,0 +1,5 @@
+<section>
+    <app-installed ng-if="$ctrl.section == 'installed'"></app-installed>
+    <app-workshop ng-if="$ctrl.section == 'workshop'"></app-workshop>
+    <app-add ng-if="$ctrl.section == 'add'" edit-item="$ctrl.arg"></app-add>
+</section>
