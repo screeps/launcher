@@ -22,6 +22,8 @@ var rl = readline.createInterface({
     prompt: ''
 });
 
+var logData = {launcher: ''};
+
 
 function connectCli() {
     lib.cli('localhost', cliPort, rl)
@@ -37,12 +39,20 @@ function connectCli() {
 function navClick() {
     var m = this.id.match(/nav-(.*)$/);
     $('.panel').hide();
+    $('.panel .log').remove();
     $('#panel-'+m[1]).show();
     $('#sidepanel a').removeClass('active');
     $(this).addClass('active');
     $('#panel-'+m[1]+' .log').each(function() { this.scrollTop = this.scrollHeight});
     if(m[1] == 'cli') {
         terminal.resize();
+    }
+    else {
+        var textarea = document.createElement('textarea');
+        textarea.className = 'log';
+        textarea.setAttribute('readonly', 'readonly');
+        textarea.value = logData[m[1]];
+        $('#panel-' + m[1]).append(textarea);
     }
 }
 
@@ -117,30 +127,32 @@ ipcRenderer.on('started', (event, data) => {
         var div = document.createElement('div');
         div.id = 'panel-'+m[1];
         div.className = 'panel';
-
-        var textarea = document.createElement('textarea');
-        textarea.className = 'log';
-        textarea.setAttribute('readonly','readonly');
-        div.appendChild(textarea);
-
         $('#panels').append(div);
 
         var fullFilename = path.resolve(data.logdir, file);
 
+        logData[m[1]] = '';
+
         var stream = readGrowingFile(fullFilename);
         stream.on('data', data => {
-            textarea.value += data;
-            if(textarea.scrollTop > textarea.scrollHeight - $(textarea).height() - 100) {
-                textarea.scrollTop = textarea.scrollHeight;
-            }
+            logData[m[1]] += data;
+            $('#panel-'+m[1]+' textarea').each(function() {
+                this.value += data;
+                if (this.scrollTop > this.scrollHeight - $(this).height() - 100) {
+                    this.scrollTop = this.scrollHeight;
+                }
+            });
         });
     })
 });
 
 ipcRenderer.on('launcherOutput', (event, data) => {
+    logData.launcher += data;
     var textarea = $('#panel-launcher .log')[0];
-    textarea.value += data;
-    if(textarea.scrollTop > textarea.scrollHeight - $(textarea).height() - 100) {
-        textarea.scrollTop = textarea.scrollHeight;
+    if(textarea) {
+        textarea.value += data;
+        if (textarea.scrollTop > textarea.scrollHeight - $(textarea).height() - 100) {
+            textarea.scrollTop = textarea.scrollHeight;
+        }
     }
 });
