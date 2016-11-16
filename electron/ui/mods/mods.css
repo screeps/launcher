@@ -1,0 +1,69 @@
+body {
+  background-color: #333;
+  font-family: arial, sans-serif;
+  color: #ccc;
+  padding: 20px; }
+
+a {
+  color: #5ba6ff;
+  cursor: pointer; }
+
+h3 {
+  font-size: 2em;
+  font-weight: normal;
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 10px; }
+  h3 span {
+    vertical-align: middle; }
+  h3 a {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 15px;
+    font-size: 11px; }
+
+.empty {
+  color: #999;
+  line-height: 1.5; }
+
+.installed-list {
+  margin-bottom: 20px; }
+  .installed-list .installed-item {
+    padding: 10px;
+    margin: 0 -10px;
+    background-color: #444;
+    position: relative;
+    margin-bottom: 10px; }
+    .installed-list .installed-item .remove {
+      display: none;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      cursor: pointer; }
+    .installed-list .installed-item .description {
+      margin-top: 6px;
+      font-size: 13px; }
+    .installed-list .installed-item:hover {
+      background-color: #484848; }
+      .installed-list .installed-item:hover .remove {
+        display: block; }
+
+.dirty {
+  color: #989882;
+  font-size: 13px; }
+
+.section-add .add-description {
+  font-size: 14px; }
+
+.section-add form > div {
+  margin-bottom: 10px; }
+  .section-add form > div label {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 3px;
+    display: block; }
+  .section-add form > div input, .section-add form > div textarea {
+    width: calc(100% - 40px); }
+  .section-add form > div .dialog {
+    width: 30px; }
+
