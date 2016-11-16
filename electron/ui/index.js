@@ -191,10 +191,10 @@ jQuery(function($, undefined) {
 
     defer.promise
         .then(items => {
-            return q.nfcall(installNpmModules, items.map(i => i.title))
+            return q.nfcall(installNpmModules, items.map(i => i.fileName.replace(/\$SLASH\$/g,'\/')))
         })
         .then(result => {
-            writeToLauncherLog(result.map(i => ' - ' + i + '\n'));
+            writeToLauncherLog(result.map(i => ' - ' + i + '\n').join(""));
         })
         .catch(err => writeToLauncherLog(err+'\n'))
         .then(() => ipcRenderer.send('ready'));

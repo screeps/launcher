@@ -94,7 +94,8 @@ app.component('appAdd', {
     },
     controller: function($scope, $q) {
         this.imagePath = '';
-        this.packageName = this.editItem ? this.editItem.title : '';
+        this.packageName = this.editItem ? this.editItem.fileName.replace(/\$SLASH\$/g,'\/') : '';
+        this.title = this.editItem ? this.editItem.title : '';
         this.description = this.editItem ? this.editItem.description : '';
 
 
@@ -112,7 +113,7 @@ app.component('appAdd', {
 
         this.submit = () => {
             this.submitting = true;
-            var filename = this.packageName.replace(/\//g,'_');
+            var filename = this.packageName.replace(/\//g,'$SLASH$');
             var promise = $q.when();
             if(!this.editItem) {
                 promise = $q((resolve, reject) => {
@@ -136,7 +137,7 @@ app.component('appAdd', {
                                 resolve, reject);
                         })
                             .then(items => {
-                                if (_.any(items, {title: info.name})) {
+                                if (_.any(items, {fileName: filename})) {
                                     return $q.reject('This package is already registered on the Steam Workshop');
                                 }
                             });
@@ -153,13 +154,13 @@ app.component('appAdd', {
                 .then(() => {
                     if(this.editItem) {
                         return $q((resolve, reject) => greenworks.updatePublishedWorkshopFile(this.editItem.publishedFileId,
-                            filename, this.imagePath, this.editItem.title, this.description, resolve, reject));
+                            filename, this.imagePath, this.title, this.description, resolve, reject));
                     }
                     else {
                         return $q((resolve, reject) => greenworks.saveTextToFile(filename, this.packageName, resolve, reject))
                             .then(() => $q((resolve, reject) => greenworks.fileShare(filename, resolve, reject)))
                             .then(() => $q((resolve, reject) => greenworks.publishWorkshopFile(filename,
-                            this.imagePath, this.packageName, this.description, resolve, reject)))
+                            this.imagePath, `[${this.packageName}] ${this.title}`, this.description, resolve, reject)))
                     }
                 })
                 .then(() => this.goToWorkshopSection())

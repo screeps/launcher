@@ -63,7 +63,7 @@ ipcMain.on('openMods', () => {
     else {
         modsWindow = new BrowserWindow({
             width: 500,
-            height: 520,
+            height: 570,
             minWidth: 500,
             minHeight: 300,
             title: 'Mods',
