@@ -167,25 +167,33 @@ jQuery(function($, undefined) {
 
     writeToLauncherLog('Updating Workshop mods...\n');
 
-    var modsJson = require(path.resolve(process.cwd(), 'mods.json'));
-    var mods = [];
-    modsJson.mods.forEach(i => {
-        if(!/^node_modules/.test(i)) {
-            mods.push(i);
-        }
-    });
-    modsJson.mods = mods;
-    if(modsJson.bots) {
-        for (var i in modsJson.bots) {
-            if(i == 'simplebot') {
-                continue;
+    try {
+
+        var modsJson = require(path.resolve(process.cwd(), 'mods.json'));
+        var mods = [];
+        modsJson.mods.forEach(i => {
+            if (!/^node_modules/.test(i)) {
+                mods.push(i);
             }
-            if(/^node_modules/.test(modsJson.bots[i])) {
-                delete modsJson.bots[i];
+        });
+        modsJson.mods = mods;
+        if (modsJson.bots) {
+            for (var i in modsJson.bots) {
+                if (i == 'simplebot') {
+                    continue;
+                }
+                if (/^node_modules/.test(modsJson.bots[i])) {
+                    delete modsJson.bots[i];
+                }
             }
         }
+        fs.writeFileSync('mods.json', JSON.stringify(modsJson, undefined, 2));
     }
-    fs.writeFileSync('mods.json', JSON.stringify(modsJson, undefined, 2));
+    catch(e) {
+        writeToLauncherLog('Error while processing mods.json\n');
+        writeToLauncherLog(e+'\n');
+        return;
+    }
 
     var defer = q.defer();
 
