@@ -18,11 +18,16 @@ cli_port = 21026
 ;The hostname on which the CLI server should listen.
 cli_host = localhost
 
-;The number of parallel runner worker processes to launch. Don't set this 
-;option greater than the number of your physical CPU cores.
-runners_cnt = 2
+;The number of player runner worker processes to launch.
+;Setting this option to more than 1 will lead to multiple simultaneous global environments
+;for each player, it is not recommended for basic setup.
+runners_cnt = 1
 
-;The number of parallel processor worker processes to launch. Don't set this 
+;The number of parallel runner threads in which player scripts are executed. Don't set this
+;option greater than the number of your physical CPU cores.
+runner_threads = 4
+
+;The number of room processor worker processes to launch. Don't set this
 ;option greater than the number of your physical CPU cores.
 processors_cnt = 2
 
