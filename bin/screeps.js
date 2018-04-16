@@ -28,7 +28,7 @@ commander
     .option('--password <password>', 'The server password which should be provided on user sign in. Default is empty.')
     .option('--cli_port <port>', 'The port number on which the CLI server should listen. Defaults to port+1.')
     .option('--cli_host <host>', 'The hostname on which the CLI server should listen. Defaults to 127.0.0.1.')
-    .option('--runners_cnt <num>', 'The number of parallel runner worker processes to launch. Don\'t set this option greater than the number of your physical CPU cores. Default is 2.')
+    .option('--runner_threads <num>', 'The number of parallel runner threads in which player scripts are executed. Don\'t set this option greater than the number of your physical CPU cores. Default is 4.')
     .option('--processors_cnt <num>', 'The number of parallel processor worker processes to launch. Don\'t set this option greater than the number of your physical CPU cores. Default is 2.')
     .option('--steam_api_key <key>', 'If you launch the server without running the local Steam client, then the Steam Web API key is required for authenticating users. It can be obtained on this page: http://steamcommunity.com/dev/apikey')
     .action(function() {
