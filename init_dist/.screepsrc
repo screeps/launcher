@@ -37,3 +37,15 @@ assetdir = assets
 
 ;The path to the database file.
 db = db.json
+
+;If set, forward console messages to terminal
+log_console = false
+
+;How many log files to keep when rotating.
+log_rotate_keep = 5
+
+;If set, disable built-in storage, useful when you use some other implementation.
+storage_disabled = false
+
+Automatically restart child processes.
+restart_interval = 3600

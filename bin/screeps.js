@@ -31,6 +31,10 @@ commander
     .option('--runner_threads <num>', 'The number of parallel runner threads in which player scripts are executed. Don\'t set this option greater than the number of your physical CPU cores. Default is 4.')
     .option('--processors_cnt <num>', 'The number of parallel processor worker processes to launch. Don\'t set this option greater than the number of your physical CPU cores. Default is 2.')
     .option('--steam_api_key <key>', 'If you launch the server without running the local Steam client, then the Steam Web API key is required for authenticating users. It can be obtained on this page: http://steamcommunity.com/dev/apikey')
+    .option('--log_console', 'If set, forward console messages to terminal. Not set by default.')
+    .option('--log_rotate_keep <num>', 'How many log files to keep when rotating. Defaults to 5.')
+    .option('--storage_disabled', 'If set, disable built-in storage, useful when you use some other implementation. Not set by default.')
+    .option('--restart_interval <seconds>', 'Automatically restart child processes. Defaults to 3600 seconds.')
     .action(function() {
 
         lib.start(this.opts(), process.stdout).then(result => {
