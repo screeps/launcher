@@ -2,6 +2,9 @@
 
 module.exports = function(config) {
     if(config.engine) {
-        config.engine.mainLoopMinDuration = 200;
+        config.engine.mainLoopMinDuration = 100;
+    }
+    if(config.backend) {
+        config.backend.socketUpdateThrottle = 100;
     }
 };
