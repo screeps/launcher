@@ -4,9 +4,21 @@ module.exports = function(config) {
 
     if(config.backend) {
         // Add visuals
-        config.backend.customObjectTypes.myobject = {
-            svg: '<ellipse cx="0" cy="0" rx="40" ry="40" fill="#77ff77"></ellipse>'
-        }
+        config.backend.renderer.metadata['myobject'] = {
+            processors: [
+                {
+                    type: 'draw',
+                    once: true,
+                    payload: {
+                        drawings: [
+                            { method: 'beginFill', params: [0x77FF77] },
+                            { method: 'drawCircle', params: [0,0,40] },
+                            { method: 'endFill' }
+                        ]
+                    }
+                }
+            ]
+        };
     }
 
     if(config.engine) {
@@ -29,7 +41,7 @@ module.exports = function(config) {
  Now you will see a green circle at this position in the room.
  This object will have MyObject prototype in your script,
  you can address it this way:
- 
+
  Game.rooms[yourRoomName].find(10000);
 
  */

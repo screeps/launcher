@@ -4,15 +4,43 @@
 module.exports = function(config) {
 
     if(config.backend) {
-        // Add visuals
+        // Add side panel
         config.backend.customObjectTypes.myobject = {
-
-            svg: `<ellipse cx="0" cy="0" rx="40" ry="40" fill="#77ff77"></ellipse>
-                  <text x="0" y="20" text-anchor="middle" font-size="50" 
-                        fill="#000000" font-weight="bold">{{object.counter}}</text>`,
-
             sidepanel: '<div><label>Counter:</label><span>{{object.counter}}</span></div>'
-        }
+        };
+
+        // Add visuals, see examples in renderer
+        config.backend.renderer.metadata['myobject'] = {
+            calculations: [
+                {
+                    id: 'displayCounter',
+                    props: ['counter'],
+                    func: {$state: 'counter'}
+                }
+            ],
+            processors: [
+                {
+                    type: 'draw',
+                    once: true,
+                    payload: {
+                        drawings: [
+                            { method: 'beginFill', params: [0x77FF77] },
+                            { method: 'drawCircle', params: [0,0,40] },
+                            { method: 'endFill' }
+                        ],
+                    }
+                },
+                {
+                    type: 'text',
+                    props: ['counter'],
+                    payload: {
+                        text: { $calc: 'displayCounter' },
+                        style: {  align: 'center', fill: '#000000', fontSize: 50, fontWeight: 'bold' },
+                        anchor: {x: 0.5, y: 0.5}
+                    }
+                }
+            ]
+        };
     }
 
     if(config.engine) {
@@ -34,7 +62,7 @@ module.exports = function(config) {
         config.engine.on('processObject', function(object, roomObjects, roomTerrain, gameTime,
                                                    roomInfo, objectsUpdate, usersUpdate) {
 
-            if(object.type == 'myobject') {                
+            if(object.type == 'myobject') {
                 objectsUpdate.update(object, {
                     counter: object.counter + 1
                 });
