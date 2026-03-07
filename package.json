@@ -30,5 +30,8 @@
   "devDependencies": {
     "electron": "^2.0.0-beta.7",
     "electron-rebuild": "^1.7.3"
+  },
+  "publishConfig": {
+    "tag": "beta"
   }
 }
