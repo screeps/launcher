@@ -1,4 +1,5 @@
 const electron = require('electron');
+const remoteMain = require('@electron/remote/main');
 const _ = require('lodash');
 const fs = require('fs');
 const app = electron.app;
@@ -11,6 +12,7 @@ global.greenworks = require('./greenworks/greenworks');
 if(!global.greenworks.initAPI()) {
     throw new Error('Error on initializing Steam API');
 }
+remoteMain.initialize();
 
 let mainWindow, modsWindow;
 
@@ -24,10 +26,15 @@ function createWindow () {
         minWidth: 300,
         minHeight: 300,
         title: 'Screeps server',
-        icon: `${__dirname}/ui/icon.png`
+        icon: `${__dirname}/ui/icon.png`,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
     });
     mainWindow.setMenu(null);
     mainWindow.loadURL(`file://${__dirname}/ui/index.html`);
+    remoteMain.enable(mainWindow.webContents);
     //mainWindow.webContents.openDevTools();
     mainWindow.on('closed', function () {
         mainWindow = null;
@@ -67,10 +74,15 @@ ipcMain.on('openMods', () => {
             minWidth: 500,
             minHeight: 300,
             title: 'Mods',
-            icon: `${__dirname}/ui/icon.png`
+            icon: `${__dirname}/ui/icon.png`,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: false
+            }
         });
         modsWindow.setMenu(null);
         modsWindow.loadURL(`file://${__dirname}/ui/mods/mods.html`);
+        remoteMain.enable(modsWindow.webContents);
         //modsWindow.webContents.openDevTools();
         modsWindow.on('closed', function () {
             modsWindow = null;

@@ -1,4 +1,5 @@
-var {ipcRenderer,shell,remote} = require('electron');
+var {ipcRenderer,shell} = require('electron');
+var remote = require('@electron/remote');
 var lib = require('./../../../lib/index');
 var fs = require('fs');
 var _ = require('lodash');
@@ -105,9 +106,11 @@ app.component('appAdd', {
         };
         this.openExternal = (value) => shell.openExternal(value);
         this.openImageFileDialog = () => {
-            dialog.showOpenDialog({properties: ['openFile'], filters: [{name: 'Images', extensions: ['jpg','png','gif']}]}, files => {
-                this.imagePath = files[0];
-                $scope.$apply();
+            dialog.showOpenDialog({properties: ['openFile'], filters: [{name: 'Images', extensions: ['jpg','png','gif']}]}).then(result => {
+                if (!result.canceled && result.filePaths.length > 0) {
+                    this.imagePath = result.filePaths[0];
+                    $scope.$apply();
+                }
             });
         };
 

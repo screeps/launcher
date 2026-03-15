@@ -1,4 +1,5 @@
-var {ipcRenderer,shell,remote} = require('electron');
+var {ipcRenderer,shell} = require('electron');
+var remote = require('@electron/remote');
 var stream = require('stream');
 var readline = require('readline');
 var lib = require('./../../lib/index');
@@ -76,7 +77,7 @@ function readGrowingFile(filename) {
             setTimeout(readsome, 1000);
         }
         else {
-            fs.read(file, new Buffer(bite_size), 0, bite_size, readbytes, processsome);
+            fs.read(file, Buffer.alloc(bite_size), 0, bite_size, readbytes, processsome);
         }
     }
 
