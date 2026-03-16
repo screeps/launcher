@@ -48,12 +48,17 @@ function createWindow () {
 
 ipcMain.once('ready', () => {
 
+    const nodeBin = path.join(
+        process.resourcesPath || path.dirname(process.execPath),
+        process.platform === 'win32' ? 'node.exe' : 'node'
+    );
+
     lib.start(undefined, new stream.Writable({
             write(chunk, encoding, callback) {
                 mainWindow.webContents.send('launcherOutput', chunk.toString('utf8'));
                 callback();
             }
-        }))
+        }), nodeBin)
         .then(result => {
             mainWindow.webContents.send('started', result);
         })
