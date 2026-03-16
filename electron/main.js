@@ -60,7 +60,12 @@ ipcMain.once('ready', () => {
             }
         }), nodeBin)
         .then(result => {
-            mainWindow.webContents.send('started', result);
+            mainWindow.webContents.send('started', {
+                gamePort: result.gamePort,
+                cliPort: result.cliPort,
+                storagePort: result.storagePort,
+                logdir: result.logdir
+            });
         })
         .catch(err => {
             console.error(err);
