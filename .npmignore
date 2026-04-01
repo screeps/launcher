@@ -1,0 +1,7 @@
+cwd
+node_modules
+.idea
+.github
+electron/greenworks
+!init_dist/node_modules
+!init_dist/example-mods/notifications-mailer/node_modules
